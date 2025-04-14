@@ -22,6 +22,7 @@ for querying historical data.
     - [Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/microsoft.entityframeworkcore.design/)
     - [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.sqlserver/)
     - [NSwag.AspNetCore](https://github.com/RicoSuter/NSwag)
+    - [Riok.Mapperly](https://mapperly.riok.app/)
 
 ## C# client generation for Tecdottir API
 

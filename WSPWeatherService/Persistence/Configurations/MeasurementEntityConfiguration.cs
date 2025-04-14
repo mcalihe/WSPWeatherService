@@ -18,7 +18,8 @@ public class MeasurementEntityConfiguration : IEntityTypeConfiguration<Measureme
         entity.HasIndex(m => new { m.Station, m.Timestamp, m.Type })
             .IsUnique();
         entity.HasIndex(m => m.Timestamp);
-        entity.HasIndex(m => new { m.Type, m.Timestamp });
+        entity.HasIndex(m => new { m.Type, m.Timestamp })
+            .IncludeProperties(m => new { m.Value });
 
         entity.Property(m => m.Station)
             .HasMaxLength(100);
