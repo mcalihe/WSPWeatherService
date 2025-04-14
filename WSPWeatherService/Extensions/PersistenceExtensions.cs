@@ -12,7 +12,6 @@ public static class PersistenceExtensions
         services.AddDbContext<WeatherDbContext>((sp, options) =>
         {
             var dbSettings = sp.GetRequiredService<IOptions<DatabaseOptions>>().Value;
-            Console.WriteLine(dbSettings.SqlDataConnectionString);
             options.UseSqlServer(dbSettings.SqlDataConnectionString);
         });
 
