@@ -1,0 +1,23 @@
+﻿{
+  "runtime": "Net90",
+  "defaultVariables": null,
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "https://tecdottir.metaodi.ch/swagger",
+      "output": null
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "className": "WeatherClient",
+      "namespace": "Tecdottir.WeatherClient",
+      "output": "WSPWeatherService/Clients/WeatherApiClient.g.cs",
+      "generateClientClasses": true,
+      "generateClientInterfaces": false,
+      "generateDtoTypes": true,
+      "injectHttpClient": true,
+      "useHttpClientCreationMethod": false,
+      "generateOptionalParameters": true
+    }
+  }
+}
