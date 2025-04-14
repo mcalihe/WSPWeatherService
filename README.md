@@ -21,3 +21,4 @@ for querying historical data.
     - [Microsoft.Data.SqlClient](https://www.nuget.org/packages/microsoft.data.sqlclient)
     - [Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/microsoft.entityframeworkcore.design/)
     - [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.sqlserver/)
+    - [NSwag.AspNetCore](https://github.com/RicoSuter/NSwag)
