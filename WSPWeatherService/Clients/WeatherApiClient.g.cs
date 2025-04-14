@@ -632,8 +632,10 @@ namespace Tecdottir.WeatherClient
         /// The value of the measurement
         /// </summary>
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? Value { get; set; }
-
+        public double? Value { get; set; }
+        // TODO: Regenerate when this is fixed: https://github.com/metaodi/tecdottir/issues/53
+        
+        
         /// <summary>
         /// The unit of the measurement
         /// </summary>

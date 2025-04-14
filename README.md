@@ -30,3 +30,7 @@ the [OAS json](https://tecdottir.metaodi.ch/swagger)):
 
 1. First install the nswag CLI tool => `dotnet tool install --global NSwag.ConsoleCore`
 2. Use the CLI to generate the client as defined in `nswag.json` =>  `nswag run nswag.json`
+
+CAREFUL: There is an issue with the OAS from the api: [Github Issue](https://github.com/metaodi/tecdottir/issues/53)
+
+So the datatype needed to be fixed manually after generating while this issue is not fixed!

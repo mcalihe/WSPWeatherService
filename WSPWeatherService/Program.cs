@@ -1,4 +1,5 @@
 using Hangfire;
+using Tecdottir.WeatherClient;
 using WSPWeatherService;
 using WSPWeatherService.Extensions;
 using WSPWeatherService.Options;
@@ -16,6 +17,8 @@ builder.Services.AddHangfireServices();
 builder.Services.AddMvcCore().AddApiExplorer();
 builder.Services.AddOpenApiDocument(config => { config.Title = "WSP Weather Service"; });
 
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<WeatherClient>();
 builder.Services.AddScoped<WeatherDataFetchJob>();
 builder.Services.AddScoped<IWeatherDataFetcher, WeatherDataFetcher>();
 
@@ -36,7 +39,7 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
 RecurringJob.AddOrUpdate<WeatherDataFetchJob>(
     "daily-weather-fetch",
     job => job.ExecuteAsync(),
-    "0 3 * * *",
+    "30 0 * * *", // 00:30 Uhr
     new RecurringJobOptions
     {
         TimeZone = TimeZoneInfo.Local
