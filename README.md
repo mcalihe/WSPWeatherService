@@ -1,8 +1,11 @@
 ## ZRHWeatherService
 
-This C#/.NET 9 microservice fetches weather data from the Zürich Water Police (Wasserschutzpolizei) for the stations "Tiefenbrunnen" and "Mythenquai". It stores validated measurements in a relational database and exposes a REST/JSON API for querying historical data.
+This C#/.NET 9 microservice fetches weather data from the Zürich Water Police (Wasserschutzpolizei) for the stations "
+Tiefenbrunnen" and "Mythenquai". It stores validated measurements in a relational database and exposes a REST/JSON API
+for querying historical data.
 
 ### Features
+
 - Fetches and persists weather data from the previous day
 - Filters out invalid or incomplete entries
 - Avoids duplicate records
@@ -13,3 +16,8 @@ This C#/.NET 9 microservice fetches weather data from the Zürich Water Police (
 - Filtering options:
     - **Required**: Time range
     - **Optional**: Station
+- Dependencies
+    - [Hangfire](https://www.hangfire.io/)
+    - [Microsoft.Data.SqlClient](https://www.nuget.org/packages/microsoft.data.sqlclient)
+    - [Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/microsoft.entityframeworkcore.design/)
+    - [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.sqlserver/)
