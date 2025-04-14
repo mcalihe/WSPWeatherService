@@ -1,0 +1,6 @@
+﻿services:
+  wspweatherservice:
+    image: wspweatherservice
+    build:
+      context: .
+      dockerfile: WSPWeatherService/Dockerfile
