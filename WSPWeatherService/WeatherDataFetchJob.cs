@@ -11,10 +11,12 @@ public class WeatherDataFetchJob
         _logger = logger;
     }
 
-    public async Task ExecuteAsync()
+    public async Task<bool> ExecuteAsync()
     {
         _logger.LogInformation("Starting WeatherDataFetchJob...");
         await _fetcher.FetchAndStoreAsync();
         _logger.LogInformation("WeatherDataFetchJob completed.");
+
+        return true;
     }
 }

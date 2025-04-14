@@ -86,7 +86,7 @@ public class WeatherDataFetcher : IWeatherDataFetcher
                 if (!response.Ok)
                 {
                     _logger.LogWarning(
-                        "Failed to fetch weather data for {Station}! Response did not indicate a success status",
+                        "Error while fetching weather data for {Station}! Response did not indicate success",
                         station);
                     continue;
                 }
@@ -96,7 +96,7 @@ public class WeatherDataFetcher : IWeatherDataFetcher
             catch (Exception ex)
             {
                 _logger.LogWarning(ex,
-                    "Failed to fetch weather data for {Station}! The following exception has occured:", station);
+                    "Error while fetching weather data for {Station}: {Message}", station, ex.Message);
             }
         }
 
