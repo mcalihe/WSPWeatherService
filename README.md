@@ -69,8 +69,8 @@ Once running, the following services are available:
 | Name                                                                      | Link                                          | Description                   |
 |---------------------------------------------------------------------------|-----------------------------------------------|-------------------------------|
 | [Swagger UI](http://localhost:8080/swagger)                               | http://localhost:8080/swagger                 | Interactive API documentation |
-| [OAS Definition (OpenAPI)](http://localhost:8080/swagger/v1/swagger.json) | http://localhost:8080/swagger/v1/swagger.json | Raw OpenAPI JSON schema       |
 | [Hangfire Dashboard](http://localhost:8080/hangfire)                      | http://localhost:8080/hangfire                | Background job monitoring     |
+| [OAS Definition (OpenAPI)](http://localhost:8080/swagger/v1/swagger.json) | http://localhost:8080/swagger/v1/swagger.json | Raw OpenAPI JSON schema       |
 
 ---
 
