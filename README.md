@@ -92,6 +92,7 @@ Once running, the following services are available:
 - [Microsoft.Data.SqlClient](https://www.nuget.org/packages/microsoft.data.sqlclient)
 - [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.sqlserver/)
 - [Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/microsoft.entityframeworkcore.design/)
+- [Microsoft.AspNetCore.OpenApi](https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi)
 - [NSwag.AspNetCore](https://github.com/RicoSuter/NSwag)
 - [Riok.Mapperly](https://mapperly.riok.app/)
 

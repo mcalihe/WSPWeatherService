@@ -29,8 +29,15 @@ builder.Services.AddHangfireServices();
 builder.Services
     .AddControllers()
     .AddJsonOptions(opt => { opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
-builder.Services.AddMvcCore().AddApiExplorer();
-builder.Services.AddOpenApiDocument(config => { config.Title = "WSP Weather Service"; });
+builder.Services.AddOpenApiDocument(config =>
+{
+    config.Title = "WSP Weather Service";
+    config.Version = "v1";
+    config.Description =
+        "Provides access to validated historical weather data from the Zürich Water Police (Mythenquai & Tiefenbrunnen). " +
+        "Supports queries for max, min, average and count metrics within a given time range and measurement type.\n\n" +
+        "Data is fetched daily at 00:30 and available via this API.";
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ExceptionToProblemDetailsHandler>();
