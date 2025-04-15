@@ -17,17 +17,26 @@ public class MeasurementsService : IMeasurementsService
 
     public async Task<MeasurementDto[]> GetAllAsync(MeasurementQuery query, CancellationToken ct = default)
     {
-        return (await ApplyQuery(query).ToArrayAsync(ct)).Select(m => m.ToDto()).ToArray();
+        return (await ApplyQuery(query).ToArrayAsync(ct))
+            .Select(m => m.ToDto())
+            .OrderByDescending(m => m.Timestamp)
+            .ToArray();
     }
 
     public async Task<MeasurementDto?> GetMaxAsync(MeasurementAggregationQuery query, CancellationToken ct = default)
     {
-        return (await ApplyQuery(query).OrderByDescending(m => m.Value).FirstOrDefaultAsync(ct)).ToDto();
+        return (await ApplyQuery(query)
+                .OrderByDescending(m => m.Value)
+                .FirstOrDefaultAsync(ct))
+            .ToDto();
     }
 
     public async Task<MeasurementDto?> GetMinAsync(MeasurementAggregationQuery query, CancellationToken ct = default)
     {
-        return (await ApplyQuery(query).OrderBy(m => m.Value).FirstOrDefaultAsync(ct)).ToDto();
+        return (await ApplyQuery(query)
+                .OrderBy(m => m.Value)
+                .FirstOrDefaultAsync(ct))
+            .ToDto();
     }
 
     public async Task<double?> GetAverageAsync(MeasurementAggregationQuery query, CancellationToken ct = default)
@@ -50,6 +59,7 @@ public class MeasurementsService : IMeasurementsService
         return await _db.Measurements
             .Select(m => m.Station)
             .Distinct()
+            .OrderBy(m => m)
             .ToArrayAsync(cancellationToken);
     }
 
@@ -59,6 +69,7 @@ public class MeasurementsService : IMeasurementsService
             .Where(m => m.Type == type)
             .Select(m => m.Unit)
             .Distinct()
+            .OrderBy(u => u)
             .ToArrayAsync(cancellationToken);
     }
 

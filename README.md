@@ -167,5 +167,8 @@ If this were a real production system, here are some ideas for further improveme
     - By **row count** (e.g. max 5000 entries)
 - 🧪 Add **integration tests** (e.g. for endpoints)
 - 🧭 Consider **MediatR** for better architecture as the project scales
-- 📦 Add **pagination support** to `GetAllMeasurements`
+- 📃 Add **pagination support** to `GetAllMeasurements`
 - 📤 Provide generated clients (`C#`, `TypeScript`, `Angular`) via **NuGet** / **npm**
+- 💾 Add an in-memory cache for min, max, average and count endpoints to avoid expensive database queries on frequently
+  requested ranges.
+  (e.g. cache results for the last 7 days with a TTL of 5 minutes)
