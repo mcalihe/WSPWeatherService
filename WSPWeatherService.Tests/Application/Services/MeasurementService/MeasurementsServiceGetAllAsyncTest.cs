@@ -39,10 +39,11 @@ public class MeasurementsServiceGetAllAsyncTest
         // Arrange
         var (db, service) = Setup();
 
+        var now = DateTimeOffset.UtcNow;
         var measurement1 = new MeasurementEntity
         {
             Station = "Mythenquai",
-            Timestamp = DateTimeOffset.UtcNow,
+            Timestamp = now.AddSeconds(2),
             Type = MeasurementType.AirTemperature,
             Value = 3.0,
             Unit = "°F"
@@ -50,7 +51,7 @@ public class MeasurementsServiceGetAllAsyncTest
         var measurement2 = new MeasurementEntity
         {
             Station = "Mythenquai",
-            Timestamp = DateTimeOffset.UtcNow,
+            Timestamp = now.AddSeconds(1),
             Type = MeasurementType.AirTemperature,
             Value = 18,
             Unit = "°C"
@@ -58,7 +59,7 @@ public class MeasurementsServiceGetAllAsyncTest
         var measurement3 = new MeasurementEntity
         {
             Station = "Mythenquai",
-            Timestamp = DateTimeOffset.UtcNow,
+            Timestamp = now,
             Type = MeasurementType.AirTemperature,
             Value = 30,
             Unit = "°C"

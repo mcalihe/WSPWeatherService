@@ -40,14 +40,15 @@ public class MeasurementsServiceTest
         // Arrange
         var (db, service) = Setup();
 
-        var station1 = "Teststation";
-        var station2 = "Frauenfeld";
-        var station3 = "Kriens";
+        var station1 = "Frauenfeld";
+        var station2 = "Kriens";
+        var station3 = "Teststation";
+        var now = DateTimeOffset.UtcNow;
         db.Measurements.AddRange(
             new MeasurementEntity
             {
                 Station = station1,
-                Timestamp = DateTimeOffset.UtcNow,
+                Timestamp = now,
                 Type = MeasurementType.WaterTemperature,
                 Value = 3.0,
                 Unit = "°F"
@@ -55,21 +56,21 @@ public class MeasurementsServiceTest
             new MeasurementEntity
             {
                 Station = station1,
-                Timestamp = DateTimeOffset.UtcNow,
+                Timestamp = now,
                 Type = MeasurementType.AirTemperature,
                 Value = 3.0,
                 Unit = "°F"
             }, new MeasurementEntity
             {
                 Station = station2,
-                Timestamp = DateTimeOffset.UtcNow,
+                Timestamp = now,
                 Type = MeasurementType.AirTemperature,
                 Value = 18,
                 Unit = "°C"
             }, new MeasurementEntity
             {
                 Station = station3,
-                Timestamp = DateTimeOffset.UtcNow,
+                Timestamp = now,
                 Type = MeasurementType.AirTemperature,
                 Value = 30,
                 Unit = "°C"
