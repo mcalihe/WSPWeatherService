@@ -51,19 +51,18 @@ make down      # Stop containers
 
 Make sure `Docker` and `make` is installed and running on your system.
 
-***Getting Started without `make`***
-
-App:
-
-```bash
-docker compose build --no-cache && docker compose up -d wspweatherservice sqlserver
-```
-
-*Tests*:
-
-```bash
-docker compose run --rm wspweatherservice.tests
-```
+> ⚠️ Getting Started without `make`
+>
+> *App*:
+> ```bash
+> docker compose build --no-cache && docker compose up -d wspweatherservice sqlserver
+> ```
+>
+> *Tests*:
+>
+> ```bash
+> docker compose run --rm wspweatherservice.tests
+> ```
 
 Once running, the following services are available:
 
@@ -134,24 +133,26 @@ make clean       # Remove everything (containers, volumes, images)
 
 ---
 
-## 🔧 Generating the C# Client for the Tecdottir API
+## 🧬 Generating the C# Client for the Tecdottir API
 
-To generate a C# client for the [Tecdottir Weather API](https://tecdottir.metaodi.ch/docs/):
+This project uses a generated C# client to access the [Tecdottir Weather API](https://tecdottir.metaodi.ch/docs/), based
+on the [Tecdottir OpenAPI specification](https://tecdottir.metaodi.ch/swagger).
 
-1. Install the NSwag CLI:
+To regenerate the client (if the API changes):
+
+1. Install the NSwag CLI tool:
    ```bash
    dotnet tool install --global NSwag.ConsoleCore
    ```
 
-2. Run the generator:
+2. Run the generator using the predefined configuration:
    ```bash
    nswag run nswag.json
    ```
 
-⚠️ **Important:**  
-There is a known issue with the API's OpenAPI schema —
-see [GitHub Issue #53](https://github.com/metaodi/tecdottir/issues/53).  
-You'll need to **manually fix the datatype** in the generated code until it's resolved upstream.
+> ⚠️ **Note:** The OpenAPI spec currently contains a known issue related to a datatype.  
+> You may need to manually fix the generated code until this [issue](https://github.com/metaodi/tecdottir/issues/53) is
+> resolved.
 
 ---
 
