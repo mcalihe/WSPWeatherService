@@ -1,4 +1,6 @@
-﻿namespace WSPWeatherService;
+﻿using WSPWeatherService.Application.Interfaces;
+
+namespace WSPWeatherService.Infrastructure.Jobs;
 
 public class WeatherDataFetchJob
 {

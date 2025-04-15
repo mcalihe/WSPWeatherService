@@ -1,5 +1,5 @@
 ﻿using Riok.Mapperly.Abstractions;
-using WSPWeatherService.Application.Models;
+using WSPWeatherService.Api.Models;
 using WSPWeatherService.Persistence.Models;
 
 namespace WSPWeatherService.Application;

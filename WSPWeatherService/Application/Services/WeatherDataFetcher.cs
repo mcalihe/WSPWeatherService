@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tecdottir.WeatherClient;
+using WSPWeatherService.Application.Interfaces;
 using WSPWeatherService.Persistence;
 using WSPWeatherService.Persistence.Models;
 
-namespace WSPWeatherService;
+namespace WSPWeatherService.Application.Services;
 
 public class WeatherDataFetcher : IWeatherDataFetcher
 {

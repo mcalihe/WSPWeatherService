@@ -1,7 +1,7 @@
-﻿using WSPWeatherService.Application.Models;
+﻿using WSPWeatherService.Api.Models;
 using WSPWeatherService.Persistence.Models;
 
-namespace WSPWeatherService.Application;
+namespace WSPWeatherService.Application.Interfaces;
 
 public interface IMeasurementsService
 {

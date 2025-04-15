@@ -1,6 +1,6 @@
 ﻿using WSPWeatherService.Persistence.Models;
 
-namespace WSPWeatherService.Application.Models;
+namespace WSPWeatherService.Api.Models;
 
 public record MeasurementQuery(
     MeasurementType Type,

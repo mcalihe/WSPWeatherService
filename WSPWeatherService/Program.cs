@@ -1,10 +1,13 @@
 using System.Text.Json.Serialization;
 using Hangfire;
 using Tecdottir.WeatherClient;
-using WSPWeatherService;
-using WSPWeatherService.Application;
-using WSPWeatherService.Extensions;
+using WSPWeatherService.Api;
+using WSPWeatherService.Application.Interfaces;
+using WSPWeatherService.Application.Services;
+using WSPWeatherService.Infrastructure;
+using WSPWeatherService.Infrastructure.Jobs;
 using WSPWeatherService.Options;
+using WSPWeatherService.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +60,9 @@ RecurringJob.AddOrUpdate<WeatherDataFetchJob>(
         TimeZone = TimeZoneInfo.Local
     }
 );
+
+// Let the job run once at the startup
+BackgroundJob.Enqueue<WeatherDataFetchJob>(job => job.ExecuteAsync());
 
 app.MapGet("/", () => "Api is currently running.").ExcludeFromDescription();
 app.MapMeasurementEndpoints();

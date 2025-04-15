@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WSPWeatherService.Application;
-using WSPWeatherService.Application.Models;
+using WSPWeatherService.Api.Models;
+using WSPWeatherService.Application.Interfaces;
 using WSPWeatherService.Persistence.Models;
 
-namespace WSPWeatherService.Extensions;
+namespace WSPWeatherService.Api;
 
 public static class MeasurementsEndpointsExtensions
 {

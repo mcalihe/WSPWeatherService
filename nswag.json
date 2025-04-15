@@ -11,7 +11,7 @@
     "openApiToCSharpClient": {
       "className": "WeatherClient",
       "namespace": "Tecdottir.WeatherClient",
-      "output": "WSPWeatherService/Clients/WeatherApiClient.g.cs",
+      "output": "WSPWeatherService/Infrastructure/Clients/WeatherApiClient.g.cs",
       "generateClientClasses": true,
       "generateClientInterfaces": false,
       "generateDtoTypes": true,

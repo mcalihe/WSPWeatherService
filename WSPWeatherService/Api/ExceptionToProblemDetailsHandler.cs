@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 
-namespace WSPWeatherService;
+namespace WSPWeatherService.Api;
 
 public class ExceptionToProblemDetailsHandler : IExceptionHandler
 {

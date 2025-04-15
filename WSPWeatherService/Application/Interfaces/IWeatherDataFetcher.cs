@@ -1,4 +1,4 @@
-﻿namespace WSPWeatherService;
+﻿namespace WSPWeatherService.Application.Interfaces;
 
 public interface IWeatherDataFetcher
 {

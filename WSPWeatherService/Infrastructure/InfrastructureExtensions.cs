@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Options;
 using WSPWeatherService.Options;
 
-namespace WSPWeatherService.Extensions;
+namespace WSPWeatherService.Infrastructure;
 
-public static class HangfireExtensions
+public static class InfrastructureExtensions
 {
     public static IServiceCollection AddHangfireServices(this IServiceCollection services)
     {

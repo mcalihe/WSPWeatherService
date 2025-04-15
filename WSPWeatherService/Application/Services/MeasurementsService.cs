@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WSPWeatherService.Application.Models;
+using WSPWeatherService.Api.Models;
+using WSPWeatherService.Application.Interfaces;
 using WSPWeatherService.Persistence;
 using WSPWeatherService.Persistence.Models;
 
-namespace WSPWeatherService.Application;
+namespace WSPWeatherService.Application.Services;
 
 public class MeasurementsService : IMeasurementsService
 {

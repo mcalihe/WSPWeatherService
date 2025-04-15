@@ -1,6 +1,6 @@
 ﻿using Hangfire.Dashboard;
 
-namespace WSPWeatherService;
+namespace WSPWeatherService.Infrastructure;
 
 public class HangfireDashboardAuthorizationFilter : IDashboardAuthorizationFilter
 {

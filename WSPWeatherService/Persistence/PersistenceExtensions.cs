@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using WSPWeatherService.Options;
-using WSPWeatherService.Persistence;
 
-namespace WSPWeatherService.Extensions;
+namespace WSPWeatherService.Persistence;
 
 public static class PersistenceExtensions
 {
