@@ -23,6 +23,8 @@ JSON API for querying historical data.
     - Retrieve **max**, **min**, and **average** values per measurement type
     - Count stored entries per measurement type
     - List all stored measurements per measurement type
+    - List all stations that are available
+    - List all units that are available per measurement type
 - ✅ Filtering options:
     - **Required**: Time range (`start`, `end`)
     - **Optional**: Station (`station` query param)
