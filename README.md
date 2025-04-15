@@ -43,5 +43,6 @@ These would be the further steps to take if this was a real project:
 - Rate-limiting or API key for public access
 - Limiting the `GetAllMeasurements` endpoint so it is limited in the date-range (e.g. max 6 months) / limited in the
   max-rows (e.g. 5000)
+- Maybe use `MediatR` in the future if the project grows
 - Add pagination support to the `GetAllMeasurements`
 - Provide a generated `C#`/`Typescript`/`Angular` client via `npm`/`NuGet`
