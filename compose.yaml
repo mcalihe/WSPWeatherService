@@ -11,6 +11,14 @@
     env_file: ".env"
     depends_on:
       - sqlserver
+  wspweatherservice.tests:
+    image: wspweatherservice.tests
+    container_name: unit-tests
+    build:
+      context: .
+      dockerfile: WSPWeatherService.Tests/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver
