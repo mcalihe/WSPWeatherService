@@ -1,79 +1,137 @@
-## WSPWeatherService
+# 🌦 WSPWeatherService
 
-This C#/.NET 9 microservice fetches weather data from the Zürich Water Police (Wasserschutzpolizei) for the stations "
-Tiefenbrunnen" and "Mythenquai". It stores validated measurements in a relational database and exposes a REST/JSON API
-for querying historical data.
+This C#/.NET 9 microservice fetches weather data from the Zürich Water Police (*Wasserschutzpolizei*) for the stations
+**Tiefenbrunnen** and **Mythenquai**. It stores validated measurements in a relational database and exposes a RESTful
+JSON API for querying historical data.
 
-### Features
+---
 
-- Fetches and persists weather data from the previous day
-- Filters out invalid or incomplete entries
-- Avoids duplicate records
-- Provides a REST API to:
-    - Retrieve max, min, and average values per measurement type
-    - Count stored entries
-    - List all stored measurements
-- Filtering options:
-    - **Required**: Time range
-    - **Optional**: Station
-- Dependencies
-    - [Hangfire](https://www.hangfire.io/)
-    - [Microsoft.Data.SqlClient](https://www.nuget.org/packages/microsoft.data.sqlclient)
-    - [Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/microsoft.entityframeworkcore.design/)
-    - [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.sqlserver/)
-    - [NSwag.AspNetCore](https://github.com/RicoSuter/NSwag)
-    - [Riok.Mapperly](https://mapperly.riok.app/)
+## 🚀 Getting Started
+
+To run the project locally using Docker:
+
+```bash
+make build     # Build all containers (API, DB, Tests)
+```
+
+```bash
+make start     # Start API and database
+```
+
+```bash
+make test      # Run all unit tests
+```
+
+```bash
+make down      # Stop containers
+```
+
+Make sure `Docker` and `make` is installed and running on your system.
+
+***Getting Started without `make`***
+
+App:
+```bash
+docker compose build --no-cache && docker compose up -d wspweatherservice sqlserver
+```
+*Tests*:
+```bash
+docker compose run --rm wspweatherservice.tests
+```
+---
+
+## ✨ Features
+
+- ✅ Fetches and persists weather data from the **previous day**
+- ✅ Filters out **invalid or incomplete** entries
+- ✅ Avoids **duplicate records**
+- ✅ Provides a REST API to:
+    - Retrieve **max**, **min**, and **average** values per measurement type
+    - Count stored entries per measurement type
+    - List all stored measurements per measurement type
+- ✅ Filtering options:
+    - **Required**: Time range (`start`, `end`)
+    - **Optional**: Station (`station` query param)
+
+---
+
+## 🧩 Dependencies
+
+- [Hangfire](https://www.hangfire.io/)
+- [Microsoft.Data.SqlClient](https://www.nuget.org/packages/microsoft.data.sqlclient)
+- [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.sqlserver/)
+- [Microsoft.EntityFrameworkCore.Design](https://www.nuget.org/packages/microsoft.entityframeworkcore.design/)
+- [NSwag.AspNetCore](https://github.com/RicoSuter/NSwag)
+- [Riok.Mapperly](https://mapperly.riok.app/)
+
+---
 
 ## 🛠 Makefile Commands
 
-To simplify building, running, and testing the project, the following Makefile commands are available:
+The project includes a `Makefile` to simplify building, running, and testing.
 
-| Command      | Description                                                                                         |
-|--------------|-----------------------------------------------------------------------------------------------------|
-| `make build` | Builds all Docker containers **from scratch** (no cache). Useful for stale dependencies.            |
-| `make start` | Starts the web application (`wspweatherservice`) and the database (`sqlserver`) in detached mode.   |
-| `make test`  | Runs all **unit tests** inside the `wspweatherservice.tests` container.                             |
-| `make down`  | Stops and removes all running containers.                                                           |
-| `make clean` | Completely removes all containers, volumes, and images created by the project. ⚠️ Use with caution. |
+| Command      | Description                                                                                   |
+|--------------|-----------------------------------------------------------------------------------------------|
+| `make build` | Builds all Docker containers **from scratch** (no cache). Useful for stale dependencies.      |
+| `make start` | Starts the web application (`wspweatherservice`) and database (`sqlserver`) in detached mode. |
+| `make test`  | Runs all **unit tests** inside the `wspweatherservice.tests` container.                       |
+| `make down`  | Stops and removes all running containers.                                                     |
+| `make clean` | Removes all containers, volumes, and images created by the project. ⚠️ Use with caution.      |
 
-### Example usage
+### 💡 Example usage
 
 ```bash
 make build       # Rebuild all services
 ```
+
 ```bash
 make start       # Start app and database
 ```
+
 ```bash
 make test        # Run unit tests
 ```
+
 ```bash
 make down        # Stop and remove containers
 ```
+
 ```bash
 make clean       # Remove everything (containers, volumes, images)
 ```
 
-## C# client generation for Tecdottir API
+---
 
-To generate a client for the [Tecdottir Weather API](https://tecdottir.metaodi.ch/docs/) (based on
-the [OAS json](https://tecdottir.metaodi.ch/swagger)):
+## 🔧 Generating the C# Client for the Tecdottir API
 
-1. First install the nswag CLI tool => `dotnet tool install --global NSwag.ConsoleCore`
-2. Use the CLI to generate the client as defined in `nswag.json` =>  `nswag run nswag.json`
+To generate a C# client for the [Tecdottir Weather API](https://tecdottir.metaodi.ch/docs/):
 
-CAREFUL: There is an issue with the OAS from the api: [Github Issue](https://github.com/metaodi/tecdottir/issues/53)
+1. Install the NSwag CLI:
+   ```bash
+   dotnet tool install --global NSwag.ConsoleCore
+   ```
 
-So the datatype needed to be fixed manually after generating while this issue is not fixed!
+2. Run the generator:
+   ```bash
+   nswag run nswag.json
+   ```
 
-## Further steps
+⚠️ **Important:**  
+There is a known issue with the API's OpenAPI schema —
+see [GitHub Issue #53](https://github.com/metaodi/tecdottir/issues/53).  
+You'll need to **manually fix the datatype** in the generated code until it's resolved upstream.
 
-These would be the further steps to take if this was a real project:
+---
 
-- Rate-limiting or API key for public access
-- Limiting the `GetAllMeasurements` endpoint so it is limited in the date-range (e.g. max 6 months) / limited in the
-  max-rows (e.g. 5000)
-- Integration tests (e.g. for the endpoints)
-- Maybe use `MediatR` in the future if the project grows
-- Add pagination support to the `GetAllMeasurements`
-- Provide a generated `C#`/`Typescript`/`Angular` client via `npm`/`NuGet`
+## 📌 Potential Next Steps
+
+If this were a real production system, here are some ideas for further improvement:
+
+- 🔒 Add **rate-limiting** or **API key** support for public access
+- 📉 Limit `GetAllMeasurements`:
+    - By **date range** (e.g. max 6 months)
+    - By **row count** (e.g. max 5000 entries)
+- 🧪 Add **integration tests** (e.g. for endpoints)
+- 🧭 Consider **MediatR** for better architecture as the project scales
+- 📦 Add **pagination support** to `GetAllMeasurements`
+- 📤 Provide generated clients (`C#`, `TypeScript`, `Angular`) via **NuGet** / **npm**
