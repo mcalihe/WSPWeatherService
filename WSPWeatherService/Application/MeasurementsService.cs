@@ -39,6 +39,23 @@ public class MeasurementsService : IMeasurementsService
         return await ApplyQuery(query).CountAsync(ct);
     }
 
+    public async Task<string[]> GetStations(CancellationToken cancellationToken = default)
+    {
+        return await _db.Measurements
+            .Select(m => m.Station)
+            .Distinct()
+            .ToArrayAsync(cancellationToken);
+    }
+
+    public async Task<string[]> GetUnits(MeasurementType type, CancellationToken cancellationToken = default)
+    {
+        return await _db.Measurements
+            .Where(m => m.Type == type)
+            .Select(m => m.Unit)
+            .Distinct()
+            .ToArrayAsync(cancellationToken);
+    }
+
     private IQueryable<MeasurementEntity> ApplyQuery(MeasurementQuery measurementQuery)
     {
         var query = _db.Measurements

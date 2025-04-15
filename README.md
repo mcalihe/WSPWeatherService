@@ -1,4 +1,4 @@
-## ZRHWeatherService
+## WSPWeatherService
 
 This C#/.NET 9 microservice fetches weather data from the Zürich Water Police (Wasserschutzpolizei) for the stations "
 Tiefenbrunnen" and "Mythenquai". It stores validated measurements in a relational database and exposes a REST/JSON API
@@ -35,3 +35,13 @@ the [OAS json](https://tecdottir.metaodi.ch/swagger)):
 CAREFUL: There is an issue with the OAS from the api: [Github Issue](https://github.com/metaodi/tecdottir/issues/53)
 
 So the datatype needed to be fixed manually after generating while this issue is not fixed!
+
+## Further steps
+
+These would be the further steps to take if this was a real project:
+
+- Rate-limiting or API key for public access
+- Limiting the `GetAllMeasurements` endpoint so it is limited in the date-range (e.g. max 6 months) / limited in the
+  max-rows (e.g. 5000)
+- Add pagination support to the `GetAllMeasurements`
+- Provide a generated `C#`/`Typescript`/`Angular` client via `npm`/`NuGet`

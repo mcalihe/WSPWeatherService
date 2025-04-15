@@ -1,4 +1,5 @@
 ﻿using WSPWeatherService.Application.Models;
+using WSPWeatherService.Persistence.Models;
 
 namespace WSPWeatherService.Application;
 
@@ -9,4 +10,6 @@ public interface IMeasurementsService
     Task<MeasurementDto?> GetMinAsync(MeasurementAggregationQuery query, CancellationToken cancellationToken = default);
     Task<double?> GetAverageAsync(MeasurementAggregationQuery query, CancellationToken cancellationToken = default);
     Task<int> GetCountAsync(MeasurementAggregationQuery query, CancellationToken cancellationToken = default);
+    Task<string[]> GetStations(CancellationToken cancellationToken = default);
+    Task<string[]> GetUnits(MeasurementType type, CancellationToken cancellationToken = default);
 }

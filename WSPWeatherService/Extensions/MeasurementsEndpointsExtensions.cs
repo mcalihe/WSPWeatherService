@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WSPWeatherService.Application;
 using WSPWeatherService.Application.Models;
+using WSPWeatherService.Persistence.Models;
 
 namespace WSPWeatherService.Extensions;
 
@@ -12,6 +13,14 @@ public static class MeasurementsEndpointsExtensions
             .MapGroup("/measurements")
             .WithTags("Measurements");
 
+
+        // WARNING: This endpoint can severely impact API performance.
+        // Consider introducing stricter limitations before using it in production.
+        //
+        // Suggestions:
+        // - Enforce a maximum allowed date range (e.g. 6 months)
+        // - Enforce a maximum number of rows per request (e.g. 5000)
+        // - Support pagination using cursor or skip/take
         measurementsGroup.MapGet("", async (
                 [FromServices] IMeasurementsService service,
                 [AsParameters] MeasurementQuery query,
@@ -22,6 +31,29 @@ public static class MeasurementsEndpointsExtensions
             }).WithName("GetAllMeasurements")
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .Produces<IEnumerable<MeasurementDto>>();
+
+
+        // This is an additional endpoint so the consumer can get all the units
+        // that are currently available for a specific type
+        //
+        // I would also be a possibility to make the units strongly typed (with an enum per type for example)
+        // But this would come with some benefits and some drawbacks as always.
+        measurementsGroup.MapGet("/units", async (
+                [FromQuery] MeasurementType type,
+                [FromServices] IMeasurementsService service,
+                CancellationToken ct) => Results.Ok(await service.GetUnits(type, ct)))
+            .WithName("GetUnitsForMeasurementType")
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .Produces<string[]>();
+
+        // This is an additional endpoint so the consumer can get all the stations
+        // that are currently available
+        measurementsGroup.MapGet("/stations", async (
+                [FromServices] IMeasurementsService service,
+                CancellationToken ct) => Results.Ok(await service.GetStations(ct)))
+            .WithName("GetAllStations")
+            .Produces<string[]>();
+
 
         var statsGroup = measurementsGroup.MapGroup("/stats");
 
