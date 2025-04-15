@@ -18,9 +18,4 @@ public static class InfrastructureExtensions
 
         return services;
     }
-
-    public static IApplicationBuilder UseHangfireDashboardWithJobs(this IApplicationBuilder app)
-    {
-        return app;
-    }
 }
