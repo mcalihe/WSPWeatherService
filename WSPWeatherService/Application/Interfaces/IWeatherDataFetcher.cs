@@ -2,5 +2,6 @@
 
 public interface IWeatherDataFetcher
 {
-    Task FetchAndStoreAsync(CancellationToken cancellationToken = default);
+    Task FetchAndStoreAsync(DateTimeOffset? start = null, DateTimeOffset? end = null,
+        CancellationToken cancellationToken = default);
 }

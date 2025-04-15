@@ -22,13 +22,19 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         _weatherClient = weatherClient;
     }
 
-    public async Task FetchAndStoreAsync(CancellationToken cancellationToken = default)
+    public async Task FetchAndStoreAsync(DateTimeOffset? start = null, DateTimeOffset? end = null,
+        CancellationToken cancellationToken = default)
     {
-        var end = DateTimeOffset.Now.Date;
-        var start = end.AddDays(-1);
+        if (start > end)
+        {
+            throw new ArgumentException("Start date must be before end date", nameof(start));
+        }
+
+        end ??= DateTimeOffset.Now.Date;
+        start ??= end.Value.AddDays(-1);
 
         _logger.LogInformation("Fetching weather data...");
-        var fetchedData = await FetchAsync(start, end, cancellationToken);
+        var fetchedData = await FetchAsync(start.Value, end.Value, cancellationToken);
         _logger.LogInformation("Weather data fetch completed.");
 
         _logger.LogInformation("Start mapping fetched weather data...");
@@ -36,7 +42,8 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         _logger.LogInformation("Mapping completed. Count: {count}", measurements.Length);
 
         _logger.LogInformation("Start filtering already existing entries...");
-        var newMeasurements = await FilterAlreadyExistingEntriesAsync(measurements, start, end, cancellationToken);
+        var newMeasurements =
+            await FilterAlreadyExistingEntriesAsync(measurements, start.Value, end.Value, cancellationToken);
         _logger.LogInformation("Filtering completed. Count: {count}", newMeasurements.Length);
 
         _logger.LogInformation("Inserting new measurement entities into DB...");
@@ -45,9 +52,9 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         _logger.LogInformation("FetchAndStoreAsync completed!");
     }
 
-    private async Task<MeasurementEntity[]> FilterAlreadyExistingEntriesAsync(
+    internal async Task<MeasurementEntity[]> FilterAlreadyExistingEntriesAsync(
         MeasurementEntity[] measurements,
-        DateTime start, DateTime end,
+        DateTimeOffset start, DateTimeOffset end,
         CancellationToken cancellationToken = default)
     {
         // This in-memory filtering approach is simple and sufficient for this exercise.
@@ -67,8 +74,8 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         return newMeasurements;
     }
 
-    private async Task<MeasurementResponse[]> FetchAsync(
-        DateTime start, DateTime end,
+    internal async Task<MeasurementResponse[]> FetchAsync(
+        DateTimeOffset start, DateTimeOffset end,
         CancellationToken cancellationToken = default)
     {
         var sort = $"{nameof(Measurement.Timestamp_cet).ToLower()} desc";
@@ -104,13 +111,14 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         return results.ToArray();
     }
 
-    private static MeasurementEntity[] MapToMeasurementEntities(MeasurementResponse[] measurementResponses)
+    public static MeasurementEntity[] MapToMeasurementEntities(MeasurementResponse[] measurementResponses)
     {
         var entities = new List<MeasurementEntity>();
 
         foreach (var measurementResponse in measurementResponses)
         {
-            if (measurementResponse.Values.Air_temperature.Status == Air_temperatureStatus.Ok
+            if (measurementResponse.Values.Air_temperature is not null
+                && measurementResponse.Values.Air_temperature.Status == Air_temperatureStatus.Ok
                 && measurementResponse.Values.Air_temperature.Value.HasValue)
             {
                 entities.Add(new MeasurementEntity
@@ -123,7 +131,8 @@ public class WeatherDataFetcher : IWeatherDataFetcher
                 });
             }
 
-            if (measurementResponse.Values.Water_temperature.Status == Water_temperatureStatus.Ok
+            if (measurementResponse.Values.Water_temperature is not null
+                && measurementResponse.Values.Water_temperature.Status == Water_temperatureStatus.Ok
                 && measurementResponse.Values.Water_temperature.Value.HasValue)
             {
                 entities.Add(new MeasurementEntity
@@ -136,7 +145,8 @@ public class WeatherDataFetcher : IWeatherDataFetcher
                 });
             }
 
-            if (measurementResponse.Values.Barometric_pressure_qfe.Status == Barometric_pressure_qfeStatus.Ok
+            if (measurementResponse.Values.Barometric_pressure_qfe is not null
+                && measurementResponse.Values.Barometric_pressure_qfe.Status == Barometric_pressure_qfeStatus.Ok
                 && measurementResponse.Values.Barometric_pressure_qfe.Value.HasValue)
             {
                 entities.Add(new MeasurementEntity
@@ -149,7 +159,8 @@ public class WeatherDataFetcher : IWeatherDataFetcher
                 });
             }
 
-            if (measurementResponse.Values.Humidity.Status == HumidityStatus.Ok
+            if (measurementResponse.Values.Humidity is not null
+                && measurementResponse.Values.Humidity.Status == HumidityStatus.Ok
                 && measurementResponse.Values.Humidity.Value.HasValue)
             {
                 entities.Add(new MeasurementEntity
@@ -166,7 +177,7 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         return entities.ToArray();
     }
 
-    private static (string Station, DateTimeOffset Timestamp, MeasurementType Type) GetUniqueKey(
+    internal static (string Station, DateTimeOffset Timestamp, MeasurementType Type) GetUniqueKey(
         MeasurementEntity m)
     {
         return (m.Station, m.Timestamp, m.Type);
