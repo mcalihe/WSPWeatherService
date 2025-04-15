@@ -12,6 +12,23 @@ JSON API for querying historical data.
 - **.NET SDK 9.0**
 - Optional: `make`
 
+---
+
+## ✨ Features
+
+- ✅ Fetches and persists weather data from the **previous day**
+- ✅ Filters out **invalid or incomplete** entries
+- ✅ Avoids **duplicate records**
+- ✅ Provides a REST API to:
+    - Retrieve **max**, **min**, and **average** values per measurement type
+    - Count stored entries per measurement type
+    - List all stored measurements per measurement type
+- ✅ Filtering options:
+    - **Required**: Time range (`start`, `end`)
+    - **Optional**: Station (`station` query param)
+
+---
+
 ## 🚀 Getting Started
 
 To run the project locally using Docker:
@@ -58,18 +75,15 @@ Once running, the following services are available:
 
 ---
 
-## ✨ Features
+## ⚙️ How it works
 
-- ✅ Fetches and persists weather data from the **previous day**
-- ✅ Filters out **invalid or incomplete** entries
-- ✅ Avoids **duplicate records**
-- ✅ Provides a REST API to:
-    - Retrieve **max**, **min**, and **average** values per measurement type
-    - Count stored entries per measurement type
-    - List all stored measurements per measurement type
-- ✅ Filtering options:
-    - **Required**: Time range (`start`, `end`)
-    - **Optional**: Station (`station` query param)
+- A background job is scheduled via **Hangfire** to run daily at **00:30**, fetching weather data for the previous
+  day. (The job can also be runned manually using the [Hangfire Dashboard](http://localhost:8080/hangfire))
+- Additionally, the fetch job runs **once on application startup** to ensure fresh data is available even before the
+  first scheduled run.
+- The fetched and validated data is stored in a SQL Server database and made accessible via a RESTful API.
+- The API is documented and available to consumers via [Swagger UI](http://localhost:8080/swagger)
+  and [OAS Definition (OpenAPI)](http://localhost:8080/swagger/v1/swagger.json).
 
 ---
 
