@@ -6,6 +6,9 @@ using WSPWeatherService.Persistence.Models;
 
 namespace WSPWeatherService.Application.Services;
 
+/// <summary>
+///     Handles the fetching, mapping, deduplication, and storage of weather data from the Zürich Water Police API.
+/// </summary>
 public class WeatherDataFetcher : IWeatherDataFetcher
 {
     private const int FetchLimit = 100;
@@ -22,6 +25,13 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         _weatherClient = weatherClient;
     }
 
+    /// <summary>
+    ///     Fetches weather data for the specified time range, maps it, filters out existing entries,
+    ///     and inserts new data into the database.
+    /// </summary>
+    /// <param name="start">Start of the time range (defaults to yesterday).</param>
+    /// <param name="end">End of the time range (defaults to 1 day after start).</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
     public async Task FetchAndStoreAsync(DateTimeOffset? start = null, DateTimeOffset? end = null,
         CancellationToken cancellationToken = default)
     {
@@ -52,6 +62,14 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         _logger.LogInformation("FetchAndStoreAsync completed!");
     }
 
+    /// <summary>
+    ///     Filters out measurements that already exist in the database within the specified date range.
+    /// </summary>
+    /// <param name="measurements">All measurements to check.</param>
+    /// <param name="start">Start of date range.</param>
+    /// <param name="end">End of date range.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>New measurements that are not yet in the database.</returns>
     internal async Task<MeasurementEntity[]> FilterAlreadyExistingEntriesAsync(
         MeasurementEntity[] measurements,
         DateTimeOffset start, DateTimeOffset end,
@@ -74,6 +92,13 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         return newMeasurements;
     }
 
+    /// <summary>
+    ///     Fetches raw weather data for the given time range from the Tecdottir API.
+    /// </summary>
+    /// <param name="start">Start of the range.</param>
+    /// <param name="end">End of the range.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>Array of raw weather measurements.</returns>
     internal async Task<MeasurementResponse[]> FetchAsync(
         DateTimeOffset start, DateTimeOffset end,
         CancellationToken cancellationToken = default)
@@ -111,6 +136,11 @@ public class WeatherDataFetcher : IWeatherDataFetcher
         return results.ToArray();
     }
 
+    /// <summary>
+    ///     Converts raw measurement responses into database entities, only including valid and complete data.
+    /// </summary>
+    /// <param name="measurementResponses">The raw measurement responses from the API.</param>
+    /// <returns>An array of valid <see cref="MeasurementEntity" /> objects.</returns>
     public static MeasurementEntity[] MapToMeasurementEntities(MeasurementResponse[] measurementResponses)
     {
         var entities = new List<MeasurementEntity>();

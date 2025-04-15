@@ -6,6 +6,9 @@ using WSPWeatherService.Persistence.Models;
 
 namespace WSPWeatherService.Application.Services;
 
+/// <summary>
+///     Provides methods for querying and aggregating historical weather measurement data from the database.
+/// </summary>
 public class MeasurementsService : IMeasurementsService
 {
     private readonly WeatherDbContext _db;
@@ -15,6 +18,12 @@ public class MeasurementsService : IMeasurementsService
         _db = db;
     }
 
+    /// <summary>
+    ///     Retrieves all measurements that match the specified query.
+    /// </summary>
+    /// <param name="query">The filter criteria including type, date range, and station (optional).</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>An array of matching measurements, ordered by timestamp descending.</returns>
     public async Task<MeasurementDto[]> GetAllAsync(MeasurementQuery query, CancellationToken ct = default)
     {
         return (await ApplyQuery(query).ToArrayAsync(ct))
@@ -23,6 +32,12 @@ public class MeasurementsService : IMeasurementsService
             .ToArray();
     }
 
+    /// <summary>
+    ///     Retrieves the measurement with the maximum value for the specified type, date range, station, and unit.
+    /// </summary>
+    /// <param name="query">The aggregation query including measurement type, time range, station, and unit.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>The measurement with the highest value or null if no data matches.</returns>
     public async Task<MeasurementDto?> GetMaxAsync(MeasurementAggregationQuery query, CancellationToken ct = default)
     {
         return (await ApplyQuery(query)
@@ -31,6 +46,12 @@ public class MeasurementsService : IMeasurementsService
             .ToDto();
     }
 
+    /// <summary>
+    ///     Retrieves the measurement with the minimum value for the specified type, date range, station, and unit.
+    /// </summary>
+    /// <param name="query">The aggregation query including measurement type, time range, station, and unit.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>The measurement with the lowest value or null if no data matches.</returns>
     public async Task<MeasurementDto?> GetMinAsync(MeasurementAggregationQuery query, CancellationToken ct = default)
     {
         return (await ApplyQuery(query)
@@ -39,6 +60,12 @@ public class MeasurementsService : IMeasurementsService
             .ToDto();
     }
 
+    /// <summary>
+    ///     Calculates the average value for the specified measurement type, time range, station, and unit.
+    /// </summary>
+    /// <param name="query">The aggregation query.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>The average value, or null if no data matches.</returns>
     public async Task<double?> GetAverageAsync(MeasurementAggregationQuery query, CancellationToken ct = default)
     {
         var values = ApplyQuery(query).Select(m => m.Value);
@@ -49,11 +76,22 @@ public class MeasurementsService : IMeasurementsService
         return await values.AverageAsync(ct);
     }
 
+    /// <summary>
+    ///     Counts the number of measurements that match the given criteria.
+    /// </summary>
+    /// <param name="query">The aggregation query.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>The count of matching measurements.</returns>
     public async Task<int> GetCountAsync(MeasurementAggregationQuery query, CancellationToken ct = default)
     {
         return await ApplyQuery(query).CountAsync(ct);
     }
 
+    /// <summary>
+    ///     Returns a distinct, ordered list of all stations available in the database.
+    /// </summary>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>An array of station names.</returns>
     public async Task<string[]> GetStations(CancellationToken cancellationToken = default)
     {
         return await _db.Measurements
@@ -63,6 +101,12 @@ public class MeasurementsService : IMeasurementsService
             .ToArrayAsync(cancellationToken);
     }
 
+    /// <summary>
+    ///     Returns a distinct, ordered list of all units used for a given measurement type.
+    /// </summary>
+    /// <param name="type">The measurement type.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>An array of units (e.g., °C, %, hPa).</returns>
     public async Task<string[]> GetUnits(MeasurementType type, CancellationToken cancellationToken = default)
     {
         return await _db.Measurements
@@ -73,6 +117,11 @@ public class MeasurementsService : IMeasurementsService
             .ToArrayAsync(cancellationToken);
     }
 
+    /// <summary>
+    ///     Builds a filtered query over the measurements table based on the specified criteria.
+    /// </summary>
+    /// <param name="measurementQuery">The filter criteria.</param>
+    /// <returns>An <see cref="IQueryable{MeasurementEntity}" /> for deferred execution.</returns>
     internal IQueryable<MeasurementEntity> ApplyQuery(MeasurementQuery measurementQuery)
     {
         var query = _db.Measurements
