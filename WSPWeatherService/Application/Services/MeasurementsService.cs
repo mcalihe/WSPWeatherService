@@ -32,7 +32,12 @@ public class MeasurementsService : IMeasurementsService
 
     public async Task<double?> GetAverageAsync(MeasurementAggregationQuery query, CancellationToken ct = default)
     {
-        return await ApplyQuery(query).Select(m => m.Value).AverageAsync(ct);
+        var values = ApplyQuery(query).Select(m => m.Value);
+
+        if (!await values.AnyAsync(ct))
+            return null;
+
+        return await values.AverageAsync(ct);
     }
 
     public async Task<int> GetCountAsync(MeasurementAggregationQuery query, CancellationToken ct = default)
@@ -57,7 +62,7 @@ public class MeasurementsService : IMeasurementsService
             .ToArrayAsync(cancellationToken);
     }
 
-    private IQueryable<MeasurementEntity> ApplyQuery(MeasurementQuery measurementQuery)
+    internal IQueryable<MeasurementEntity> ApplyQuery(MeasurementQuery measurementQuery)
     {
         var query = _db.Measurements
             .Where(m => m.Type == measurementQuery.Type)
