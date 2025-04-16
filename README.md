@@ -35,17 +35,37 @@ JSON API for querying historical data.
 
 To run the project locally using Docker:
 
+1. Clone the repository
+
+```bash
+git clone https://github.com/mcalihe/WSPWeatherService.git
+```
+
+2. Change directory into the project
+
+```bash
+cd WSPWeatherService
+```
+
+3. Build the project
+
 ```bash
 make build     # Build all containers (API, DB, Tests)
 ```
+
+4. Start the project
 
 ```bash
 make start     # Start API and database
 ```
 
+5. Run unit tests (optional)
+
 ```bash
 make test      # Run all unit tests
 ```
+
+6. Cleanup the data when finished
 
 ```bash
 make down      # Stop containers
