@@ -16,6 +16,6 @@ test:
 down:
 	docker compose down
 
-# Remove all built images
+# Remove everything (containers, volumes, images)
 clean:
 	docker compose down --rmi all --volumes --remove-orphans

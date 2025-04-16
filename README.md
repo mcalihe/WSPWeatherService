@@ -65,10 +65,16 @@ make start     # Start API and database
 make test      # Run all unit tests
 ```
 
-6. Cleanup the data when finished
+6. Stop the service and database
 
 ```bash
 make down      # Stop containers
+```
+
+7. Cleanup the data when finished
+
+```bash
+make clean     # Remove everything (containers, volumes, images)
 ```
 
 Make sure `Docker` and `make` is installed and running on your system.
