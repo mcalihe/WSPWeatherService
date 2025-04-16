@@ -161,7 +161,7 @@ To regenerate the client (if the API changes):
 
 ## 📌 Potential Next Steps
 
-If this were a real production system, here are some ideas for further improvement:
+If this were a real production system, here are some **ideas** for further improvement:
 
 - 🔒 Add **rate-limiting** or **API key** support for public access
 - 📉 Limit `GetAllMeasurements`:
@@ -174,3 +174,6 @@ If this were a real production system, here are some ideas for further improveme
 - 💾 Add an in-memory cache for min, max, average and count endpoints to avoid expensive database queries on frequently
   requested ranges.
   (e.g. cache results for the last 7 days with a TTL of 5 minutes)
+- 🧱 Improve the architecture by splitting `Application`, `Infrastructure`, `Persistence`, and `Api` into separate
+  projects
+  inside the solution. (Use Inversion of Control (IoC) to decouple `Application` from `Persistence` etc.)

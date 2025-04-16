@@ -1,6 +1,5 @@
-﻿# Makefile for WSPWeatherService
-
-.PHONY: build start test down clean
+﻿.PHONY: build start test down clean
+# Makefile for WSPWeatherService
 
 build:
 	docker compose build --no-cache
