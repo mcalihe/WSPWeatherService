@@ -514,10 +514,22 @@ public class WeatherDataFetcherTest
 
         // Assert
         var measurements = await db.Measurements.ToListAsync();
-        Assert.Equal(2, measurements.Count);
 
-        Assert.Contains(measurements, m => m.Type == MeasurementType.AirTemperature);
-        Assert.Contains(measurements, m => m.Type == MeasurementType.Humidity && m.Value == 42);
+        Assert.Collection(measurements, m =>
+        {
+            Assert.Equal("Mythenquai", m.Station);
+            Assert.Equal(now, m.Timestamp);
+            Assert.Equal(MeasurementType.AirTemperature, m.Type);
+            Assert.Equal(21.0, m.Value);
+            Assert.Equal("°C", m.Unit);
+        }, m =>
+        {
+            Assert.Equal("Mythenquai", m.Station);
+            Assert.Equal(now, m.Timestamp);
+            Assert.Equal(MeasurementType.Humidity, m.Type);
+            Assert.Equal(42, m.Value);
+            Assert.Equal("%", m.Unit);
+        });
     }
 
     [Fact]
@@ -532,6 +544,5 @@ public class WeatherDataFetcherTest
         var fetcher = new WSPWeatherService.Application.Services.WeatherDataFetcher(logger, db, mockClient.Object);
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(() => fetcher.FetchAndStoreAsync(now.AddDays(1), now.AddDays(-1)));
-
     }
 }
