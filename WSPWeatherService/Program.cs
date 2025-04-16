@@ -71,7 +71,7 @@ RecurringJob.AddOrUpdate<WeatherDataFetchJob>(
 // Let the job run once at the startup
 BackgroundJob.Enqueue<WeatherDataFetchJob>(job => job.ExecuteAsync());
 
-app.MapGet("/", () => "Api is currently running.").ExcludeFromDescription();
+app.MapDefaultEndpoint(app.Environment);
 app.MapMeasurementEndpoints();
 
 if (app.Environment.IsDevelopment())

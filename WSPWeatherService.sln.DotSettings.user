@@ -11,4 +11,7 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::0EB5EAD8-94F0-4B2E-A413-FB7EE2CEF029::net9.0::WSPWeatherService.Tests.Application.Services.WeatherDataFetcher.WeatherDataFetcherTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e30401b2_002D50e3_002D4311_002Dbb64_002D0b5bce34ef28/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;WSPWeatherService.Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\micha\Documents\Bewerbung\Programmieraufgaben\Post\WSPWeatherService\WSPWeatherService.Tests" Presentation="&amp;lt;WSPWeatherService.Tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
